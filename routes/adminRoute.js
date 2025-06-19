@@ -1,13 +1,16 @@
-const express = require('express')
-const {createProduct, allProduct, deleteProduct,updateProduct,upload} = require('../controllers/adminController')
 
+const express = require('express');
+const { createProduct, allProduct, deleteProduct, updateProduct, fileUpload } = require('../controllers/adminController');
+const upload = require('../middleware/authMiddleware');
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/all',allProduct)
-router.post('/create',createProduct)
-router.delete('/delete/:id',deleteProduct)
-router.put('/update/:id', updateProduct)
-router.post('/upload',  upload)
+router.get('/all', allProduct);
+router.post('/create', createProduct);
 
-module.exports = router
+router.post('/upload', upload.single('img'), fileUpload)
+
+router.delete('/delete/:id', deleteProduct);
+router.put('/update/:id', updateProduct);
+
+module.exports = router;
